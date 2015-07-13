@@ -1,5 +1,7 @@
 import { graphql, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
-import { objectType, enumType, schemaFrom, listOf, notNull } from 'graphql-schema';
+import { objectType, schemaFrom, listOf, notNull } from 'graphql-schema';
+
+import storage from './storage';
 
 const todoItemType = objectType('TodoItemType')
 	.field('id', notNull(GraphQLInt), 'Task id')
@@ -16,7 +18,7 @@ const todoListType = objectType('TodoList')
 const queryType = objectType('QueryRoot')
 	.field('lists', todoListType)
 		.arg('id', GraphQLInt)
-		.resolve((root, {id}) => null)
+		.resolve((root, {id}) => storage.findList(id))
 	.end();
 
 export default schemaFrom(queryType);
