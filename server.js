@@ -1,7 +1,11 @@
 import express from 'express';
 import defineRoutes from './routes';
+import bodyParser from 'body-parser';
  
 const app  = express();
+
+app.use(bodyParser.text({ type: 'application/graphql' }));
+
 defineRoutes(app);
  
 const port = 3000;

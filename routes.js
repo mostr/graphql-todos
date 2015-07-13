@@ -1,5 +1,11 @@
+import {graphql} from 'graphql';
+
+import todoSchema from './graphql/schema';
+
 function handlePost(req, res) {
-  res.send('1, 2, 3, it works');
+  graphql(todoSchema, req.body).then((result) => {
+    res.send(result);
+  });
 }
 
 export default (app) => {
