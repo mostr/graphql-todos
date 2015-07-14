@@ -20,7 +20,9 @@ const lists = {
 	}
 };
 
-function signalError(msg) { throw new Error(msg) }
+function signalError(msg) {
+  return () => { throw new Error(msg) }
+}
 
 const storageOps = {
 
