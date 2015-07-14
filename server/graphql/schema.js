@@ -26,6 +26,10 @@ const mutationType = objectType('MutationRoot')
 		.arg('listId', notNull(GraphQLInt))
 		.arg('itemId', notNull(GraphQLInt))
 		.resolve((root, {listId, itemId}) => storage.markItemAsCompleted(listId, itemId))
+	.field('addItem', todoItemType)
+		.arg('listId', notNull(GraphQLInt))
+		.arg('title', notNull(GraphQLString))
+		.resolve((root, {listId, title}) => storage.addItem(listId, title))
 	.end();
 
 export default schemaFrom(queryType, mutationType);

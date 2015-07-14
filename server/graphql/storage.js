@@ -37,6 +37,15 @@ const storageOps = {
         return item;
       })
       .getOrElse(signalError(`Could not find todo item ${itemId} on list ${listId}`))
+  },
+
+  addItem(listId, title) {
+    return Option(this.findList(listId)).map(list => {
+      const maxId = Math.max.apply(null, list.items.map(i => i.id));
+      const newItem = { id: maxId + 1, title: title, completed: false };
+      list.items.push(newItem);
+      return newItem;
+    }).getOrElse(signalError('Could not add item'));
   }
 
 };
