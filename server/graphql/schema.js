@@ -16,9 +16,16 @@ const todoListType = objectType('TodoList')
 	.end();
 
 const queryType = objectType('QueryRoot')
-	.field('lists', todoListType)
+	.field('list', todoListType)
 		.arg('id', GraphQLInt)
 		.resolve((root, {id}) => storage.findList(id))
 	.end();
 
-export default schemaFrom(queryType);
+const mutationType = objectType('MutationRoot')
+	.field('markItemAsCompleted', todoItemType)
+		.arg('listId', notNull(GraphQLInt))
+		.arg('itemId', notNull(GraphQLInt))
+		.resolve((root, {listId, itemId}) => storage.markItemAsCompleted(listId, itemId))
+	.end();
+
+export default schemaFrom(queryType, mutationType);
