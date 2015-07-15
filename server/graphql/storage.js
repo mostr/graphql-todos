@@ -28,6 +28,14 @@ function signalError(msg) {
 
 const storageOps = {
 
+  getListsSummary() {
+    return Object.keys(lists).map(k => lists[k]).map(({id, name, items}) => {
+      const completedCount = items.filter(i => i.completed).length;
+      const pendingCount = items.length - completedCount;
+      return { id, name, completedCount, pendingCount };
+    });
+  },
+
   findList(id) {
     return lists[id] ? lists[id] : signalError(`Could not find list ${id}`);
   },

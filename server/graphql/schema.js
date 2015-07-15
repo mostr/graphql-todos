@@ -15,7 +15,16 @@ const todoListType = objectType('TodoList')
   .field('items', listOf(todoItemType), 'List items')
   .end();
 
+const todoListSummaryType = objectType('TodoListSummary')
+  .field('id', notNull(GraphQLInt), 'List id')
+  .field('name', notNull(GraphQLString), 'List name')
+  .field('pendingCount', GraphQLInt, 'Pending items count')
+  .field('completedCount', GraphQLInt, 'Completed items count')
+  .end();
+
 const queryType = objectType('QueryRoot')
+  .field('lists', listOf(todoListSummaryType))
+    .resolve((root) => storage.getListsSummary())
   .field('list', todoListType)
     .arg('id', GraphQLInt)
     .resolve((root, {id}) => storage.findList(id))
