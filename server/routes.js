@@ -9,5 +9,5 @@ function handlePost(req, res) {
 }
 
 export default (app) => {
-	app.post('/api', handlePost)
+  app.post('/api', handlePost)
 };
