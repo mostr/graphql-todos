@@ -26,7 +26,7 @@ function signalError(msg) {
   }
 }
 
-const storageOps = {
+const actions = {
 
   getListsSummary() {
     return Object.keys(lists).map(k => lists[k]).map(({id, name, items}) => {
@@ -60,4 +60,4 @@ const storageOps = {
 
 };
 
-export default storageOps;
+export default actions;

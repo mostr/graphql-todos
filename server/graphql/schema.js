@@ -1,7 +1,7 @@
 import { graphql, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
 import { objectType, schemaFrom, listOf, notNull } from 'graphql-schema';
 
-import storage from './storage';
+import actions from './actions';
 
 const todoItemType = objectType('TodoItemType')
   .field('id', notNull(GraphQLInt), 'Task id')
@@ -24,21 +24,21 @@ const todoListSummaryType = objectType('TodoListSummary')
 
 const queryType = objectType('QueryRoot')
   .field('lists', listOf(todoListSummaryType))
-    .resolve((root) => storage.getListsSummary())
+    .resolve((root) => actions.getListsSummary())
   .field('list', todoListType)
     .arg('id', GraphQLInt)
-    .resolve((root, {id}) => storage.findList(id))
+    .resolve((root, {id}) => actions.findList(id))
   .end();
 
 const mutationType = objectType('MutationRoot')
   .field('markItemAsCompleted', todoItemType)
     .arg('listId', notNull(GraphQLInt))
     .arg('itemId', notNull(GraphQLInt))
-    .resolve((root, {listId, itemId}) => storage.markItemAsCompleted(listId, itemId))
+    .resolve((root, {listId, itemId}) => actions.markItemAsCompleted(listId, itemId))
   .field('addItem', todoItemType)
     .arg('listId', notNull(GraphQLInt))
     .arg('title', notNull(GraphQLString))
-    .resolve((root, {listId, title}) => storage.addItem(listId, title))
+    .resolve((root, {listId, title}) => actions.addItem(listId, title))
     .end();
 
 export default schemaFrom(queryType, mutationType);
