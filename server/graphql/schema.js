@@ -24,7 +24,7 @@ const todoListSummaryType = objectType('TodoListSummary')
 
 const queryType = objectType('QueryRoot')
   .field('lists', listOf(todoListSummaryType))
-    .resolve((root) => actions.getListsSummary())
+    .resolve(() => actions.getListsSummary())
   .field('list', todoListType)
     .arg('id', GraphQLInt)
     .resolve((root, {id}) => actions.findList(id))
